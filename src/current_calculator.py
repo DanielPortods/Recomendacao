@@ -42,13 +42,13 @@ class ContractRecommendationCalculator:
             rec.tariff_flag = 'Blue'
             rec.off_peak_demand_in_kw = self.blue_summary.off_peak_demand_in_kw[0]
             rec.peak_demand_in_kw = self.blue_summary.peak_demand_in_kw[0]
-            rec.total = self.blue_summary.total_total_cost_in_reais
+            rec.total = self.blue_summary.demand_cost_in_reais
         else:
             rec.tariff_flag = 'Green'
             #rec.off_peak_demand_in_kw = self.green_summary.off_peak_demand_in_kw[0]
             #rec.peak_demand_in_kw = self.green_summary.off_peak_demand_in_kw[0]
             rec.unique_tariff = self.green_summary.off_peak_demand_in_kw[0]
-            rec.total = self.green_summary.total_total_cost_in_reais
+            rec.total = self.green_summary.demand_cost_in_reais
             
         return rec
 
@@ -108,4 +108,4 @@ class RecommendationCalculator:
         end_at = time.time()
         
         return ['current', rec.tariff_flag, round(rec.peak_demand_in_kw, 2), round(rec.off_peak_demand_in_kw, 2), \
-                round(rec.unique_tariff, 2), round(rec.total, 2), self.head_num, end_at - start_at]
+                round(rec.unique_tariff, 2), round(rec.total.sum(), 2), self.head_num, end_at - start_at]
