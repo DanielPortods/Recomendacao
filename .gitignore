@@ -2,4 +2,5 @@ src/__pycache__
 src/.ipynb_checkpoints
 src/data/
 src/sheets/
+src/sheets-plus/
 study/
