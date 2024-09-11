@@ -46,12 +46,12 @@ class BioInspiredRecomendation:
             return self._skip('PSO', start_at)
         elif to_skip[0] or (green.gbest_y <= blue.gbest_y):
             end_at = time.time()
-            return ['PSO', 'Verde', 0.0, 0.0, round(green.gbest_x[0], 2), 
+            return ['PSO', 'Verde', 0.0, 0.0, round(green.gbest_x[0]), 
                     round(green.gbest_y[0], 2), self.head_num, end_at - start_at]
         else:
             end_at = time.time()
-            return ['PSO', 'Azul', round(blue.gbest_x[0], 2), 
-                    round(blue.gbest_x[1], 2), 0.0, round(blue.gbest_y[0], 2), 
+            return ['PSO', 'Azul', round(blue.gbest_x[0]), 
+                    round(blue.gbest_x[1]), 0.0, round(blue.gbest_y[0], 2), 
                     self.head_num, end_at - start_at]
 
     def do_GA(self):
@@ -78,10 +78,10 @@ class BioInspiredRecomendation:
             return self._skip('GA', start_at)
         elif to_skip[0] or (green_ga_rec[1][0] <= blue_ga_rec[1][0]):
             end_at = time.time()
-            return ['GA', 'Verde', 0.0, 0.0, round(green_ga_rec[0][0], 2), round(green_ga_rec[1][0], 2), self.head_num, end_at - start_at]
+            return ['GA', 'Verde', 0.0, 0.0, round(green_ga_rec[0][0]), round(green_ga_rec[1][0], 2), self.head_num, end_at - start_at]
         else:
             end_at = time.time()
-            return ['GA', 'Azul', round(blue_ga_rec[0][0], 2), round(blue_ga_rec[0][1], 2), 0.0, round(blue_ga_rec[1][0], 2), self.head_num, end_at - start_at]
+            return ['GA', 'Azul', round(blue_ga_rec[0][0]), round(blue_ga_rec[0][1]), 0.0, round(blue_ga_rec[1][0], 2), self.head_num, end_at - start_at]
         
 
             

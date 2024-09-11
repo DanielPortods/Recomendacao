@@ -76,7 +76,7 @@ class GreenPercentileCalculator():
         min_p_str, \
             smallest_total_demand_cost_in_reais = self.__find_percentile_with_smallest_total_demand(percentiles)
 
-        SAFETY_MARGIN = 1.05
+        SAFETY_MARGIN = 1.0
         # TODO: O ideal é que demand_[off_]peak_in_kw fosse apenas um valor no
         # "resumo" e não uma coluna inteira
         summary.smallest_total_demand_cost_in_reais = smallest_total_demand_cost_in_reais

@@ -42,32 +42,15 @@ class ContractRecommendationCalculator:
             rec.tariff_flag = 'Blue'
             rec.off_peak_demand_in_kw = self.blue_summary.off_peak_demand_in_kw[0]
             rec.peak_demand_in_kw = self.blue_summary.peak_demand_in_kw[0]
-            rec.total = self.blue_summary.demand_cost_in_reais
+            rec.total = self.blue_summary.total_total_cost_in_reais
         else:
             rec.tariff_flag = 'Green'
             #rec.off_peak_demand_in_kw = self.green_summary.off_peak_demand_in_kw[0]
             #rec.peak_demand_in_kw = self.green_summary.off_peak_demand_in_kw[0]
             rec.unique_tariff = self.green_summary.off_peak_demand_in_kw[0]
-            rec.total = self.green_summary.demand_cost_in_reais
+            rec.total = self.green_summary.total_total_cost_in_reais
             
         return rec
-
-
-class RecommendationResult:
-    recommended_contract = ContractRecommendationResult
-    ...
-
-def add_exceeded_demands_in_history(current_tariff_flag: str, consumption_history: DataFrame):
-    '''Modifica DataFrame in-place, por isso o retorno é None'''
-    consumption_history.off_peak_exceeded_in_kw =\
-        (consumption_history.off_peak_measured_demand_in_kw - consumption_history.contract_off_peak_demand_in_kw).clip(0)
-
-    if current_tariff_flag == 'Green':
-        consumption_history.peak_exceeded_in_kw =\
-            (consumption_history.peak_measured_demand_in_kw - consumption_history.contract_off_peak_demand_in_kw).clip(0)
-    else:
-        consumption_history.peak_exceeded_in_kw =\
-            (consumption_history.peak_measured_demand_in_kw - consumption_history.contract_peak_demand_in_kw).clip(0)
 
 class RecommendationCalculator:
     def __init__(
@@ -84,7 +67,6 @@ class RecommendationCalculator:
         self.consumption_history = consumption_history
         self.head_num = head_num
 
-        add_exceeded_demands_in_history(self.current_tariff, self.consumption_history)
         self.blue_calculator = BluePercentileCalculator(consumption_history, blue_tariff)
         self.green_calculator = GreenPercentileCalculator(consumption_history, green_tariff)
 
@@ -107,5 +89,5 @@ class RecommendationCalculator:
         rec = rec_calculator.calculate()
         end_at = time.time()
         
-        return ['current', rec.tariff_flag, round(rec.peak_demand_in_kw, 2), round(rec.off_peak_demand_in_kw, 2), \
+        return ['Percentil', rec.tariff_flag, round(rec.peak_demand_in_kw, 2), round(rec.off_peak_demand_in_kw, 2), \
                 round(rec.unique_tariff, 2), round(rec.total.sum(), 2), self.head_num, end_at - start_at]
